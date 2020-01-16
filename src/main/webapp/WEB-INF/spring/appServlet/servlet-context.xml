@@ -58,5 +58,20 @@
 		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 		<beans:property name="maxUploadSize" value="10485760" />
 	</beans:bean>
+	
+	<!-- 인터셉터 등록과 맵핑 -->
+	<beans:bean id="authInterceptor" class="net.gondr.interceptor.AuthInterceptor" />
+	<beans:bean id="nonAuthInterceptor" class="net.gondr.interceptor.NonAuthInterceptor" />
+	
+	<interceptors>
+		<interceptor>
+			<mapping path="/user/register"/>
+			<beans:ref bean="nonAuthInterceptor" />
+		</interceptor>
+		<interceptor>
+			<mapping path="/user/logout"/>
+			<beans:ref bean="authInterceptor" />
+		</interceptor>
+	</interceptors>
 
 </beans:beans>

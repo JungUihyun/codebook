@@ -10,10 +10,10 @@ import org.springframework.stereotype.Repository;
 import net.gondr.domain.UserVO;
 
 @Repository
-public class UserDAOImpl implements UserDAO{
+public class UserDAOImpl implements UserDAO {
 	@Autowired
 	private SqlSession session;
-	
+
 	private final String ns = "net.gondr.mappers.UserMapper";
 
 	@Override
@@ -26,14 +26,13 @@ public class UserDAOImpl implements UserDAO{
 		Map<String, String> loginMap = new HashMap<String, String>();
 		loginMap.put("userid", userid);
 		loginMap.put("password", password);
-		
-		return session.selectOne(ns+ ".loginUser", loginMap);
+
+		return session.selectOne(ns + ".loginUser", loginMap);
 	}
 
 	@Override
 	public void insertUser(UserVO user) {
 		session.insert(ns + ".insertUser", user);
 	}
-	
-	
+
 }

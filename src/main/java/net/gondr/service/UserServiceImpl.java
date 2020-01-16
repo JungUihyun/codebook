@@ -11,7 +11,7 @@ public class UserServiceImpl implements UserService {
 
 	@Autowired
 	private UserDAO dao;
-	
+
 	@Override
 	public UserVO login(String userid, String password) {
 		return dao.loginUser(userid, password);

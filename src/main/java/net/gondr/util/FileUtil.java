@@ -23,7 +23,7 @@ public class FileUtil {
 		// 새로운 파일에 확장자로 다시 써줌.
 		ImageIO.write(destImage, extension.toUpperCase(), newFile);
 
-		return thumbnailName.substring(uploadPath.length()).replace(File.separatorChar, '/');
+		return "s_" + filename;
 	}
 
 	public static String uploadFile(String uploadPath, String originalName, byte[] fileData) throws Exception {
@@ -43,7 +43,7 @@ public class FileUtil {
 		FileCopyUtils.copy(fileData, target);
 		// FileCopyUtils는 pom.xml에서 가져온 라이브러리이다
 
-		// 확장자 알아내고
+		// 확장자 알아내고 jpg, gif, png
 		String extension = originalName.substring(originalName.lastIndexOf(".") + 1);
 
 		String uploadFilename = null;

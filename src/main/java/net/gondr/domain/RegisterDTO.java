@@ -8,7 +8,7 @@ public class RegisterDTO {
 	private String password;
 	private String passwordConfirm;
 	private MultipartFile profileImg;
-	
+
 	@Override
 	public String toString() {
 		return "RegisterDTO [userid=" + userid + ", username=" + username + ", password=" + password
