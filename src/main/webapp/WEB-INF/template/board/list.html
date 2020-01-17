@@ -28,12 +28,12 @@
 					</tr>
 					<tr th:each="board : ${list}">
 						<td th:text="${board.id}">글번호</td>
-						<td><a th:href="@{'/board/view/' + ${board.id} }"
-							th:text="${board.title}">글제목</a></td>
+						<td><a th:href="@{'/board/view/' + ${board.id} + ${criteria.getQuery(criteria.page)} }" th:text="${board.title}">글제목</a></td>
 						<td th:text="${board.writer}">작성자</td>
-						<td th:text="${board.writeDate}">작성일</td>
+						<td th:text='${board.writeDate}'>작성일</td>
 					</tr>
 				</table>
+				
 			</div>
 		</div>
 		<div class="row mt-3">
@@ -44,22 +44,21 @@
 
 		<nav>
 			<ul class="pagination justify-content-center">
-				<li class="page-item" th:if="${criteria.prev}"><a
-					th:href="@{'/board/list?page=' + ${criteria.start - 1} }"
-					class="page-link"> <span>&laquo;</span>
-				</a></li>
-
-				<th:block
-					th:each="i : ${ #numbers.sequence( criteria.start, criteria.end )}">
-					<li class="page-item"><a
-						th:href="@{'/board/list?page=' + ${i} }" th:text="${i}"
-						class="page-link"></a></li>
+				<li class="page-item" th:if="${criteria.prev}">
+					<a th:href="@{ '/board/list' + ${criteria.getQuery(criteria.start - 1)} }" aria-label="Previous" class="page-link">
+						<span aria-hidden="true">&laquo;</span>
+					</a>
+				</li>
+				<th:block th:each="i : ${#numbers.sequence(criteria.start, criteria.end)}">
+					<li class="page-item">
+						<a th:href="@{'/board/list' + ${criteria.getQuery(i)} }" th:text="${i}" class="page-link">인덱스 번호</a>
+					</li>
 				</th:block>
-
-				<li class="page-item" th:if="${criteria.next}"><a
-					th:href="@{'/board/list?page=' + ${criteria.end + 1} }"
-					class="page-link"> <span>&raquo;</span>
-				</a></li>
+				<li class="page-item" th:if="${criteria.next}">
+					<a th:href="@{'/board/list' + ${criteria.getQuery(criteria.end + 1)} }" aria-label="Next" class="page-link">
+						<span aria-hidden="true">&raquo;</span>
+					</a>
+				</li>
 			</ul>
 		</nav>
 

@@ -114,9 +114,10 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "view/{id}", method = RequestMethod.GET)
-	public String viewArticle(@PathVariable Integer id, Model model) {
+	public String viewArticle(@PathVariable Integer id, Model model, Criteria criteria) {
 		BoardVO board = service.viewArticle(id);
 		model.addAttribute("board", board);
+		
 		return "board/view";
 	}
 

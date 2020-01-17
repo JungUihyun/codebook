@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import net.gondr.domain.LoginDTO;
 import net.gondr.domain.RegisterDTO;
@@ -111,5 +112,12 @@ public class UserController {
 			FileInputStream in = new FileInputStream(profile);
 			return IOUtils.toByteArray(in);
 		}
+	}
+	
+	@RequestMapping(value="level/make", method=RequestMethod.GET)
+	public String makeLevel(RedirectAttributes rttr) {
+		service.fillLevelTable(200);	// 200 레벨까지 경험치 생성
+		rttr.addFlashAttribute("msg", "레벨 생성이 완료되었습니다.");
+		return "redirect:/";
 	}
 }

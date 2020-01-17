@@ -118,5 +118,13 @@ public class Criteria {
 	public Integer getPageStart() {
 		return (page - 1) * perPageNum;
 	}
+	
+	public String getQuery(Integer page) {
+		String q = "?page=" + page;
+		if(this.keyword != null) {
+			q += "&keyword=" + this.keyword;
+		}
+		return q;
+	}
 
 }
