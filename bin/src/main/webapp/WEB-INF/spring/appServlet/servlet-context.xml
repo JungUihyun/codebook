@@ -63,6 +63,7 @@
 	<beans:bean id="authInterceptor" class="net.gondr.interceptor.AuthInterceptor" />
 	<beans:bean id="nonAuthInterceptor" class="net.gondr.interceptor.NonAuthInterceptor" />
 	
+	<!-- 인터셉터 맵핑 -->
 	<interceptors>
 		<interceptor>
 			<mapping path="/user/register"/>
@@ -70,6 +71,9 @@
 		</interceptor>
 		<interceptor>
 			<mapping path="/user/logout"/>
+			<mapping path="/board/write"/>
+			<mapping path="/board/write/*"/>
+			<mapping path="/board/delete/*"/>
 			<beans:ref bean="authInterceptor" />
 		</interceptor>
 	</interceptors>

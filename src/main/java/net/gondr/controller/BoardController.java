@@ -23,9 +23,11 @@ import com.nhncorp.lucy.security.xss.XssSaxFilter;
 
 import net.gondr.domain.BoardVO;
 import net.gondr.domain.Criteria;
+import net.gondr.domain.ExpData;
 import net.gondr.domain.UploadResponse;
 import net.gondr.domain.UserVO;
 import net.gondr.service.BoardService;
+import net.gondr.service.UserService;
 import net.gondr.util.FileUtil;
 import net.gondr.util.MediaUtil;
 import net.gondr.validator.BoardValidator;
@@ -38,6 +40,9 @@ public class BoardController {
 
 	@Autowired
 	private BoardService service;
+	
+	@Autowired
+	private UserService userService;
 
 	@RequestMapping(value = "write", method = RequestMethod.GET)
 	public String viewWritePage(Model model) {
@@ -108,6 +113,8 @@ public class BoardController {
 		} else {
 			// 글 작성
 			service.writeArticle(board);
+			user = userService.addExp(user.getUserid(), ExpData.MEDIUM); // 글을 한번 쓸 때마다 5의 exp를 지급
+			session.setAttribute("user", user);
 		}
 		
 		return "redirect:/board/list";
