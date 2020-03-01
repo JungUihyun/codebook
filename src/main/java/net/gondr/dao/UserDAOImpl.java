@@ -47,6 +47,7 @@ public class UserDAOImpl implements UserDAO {
 		levelMap.put("exp",  exp);
 		
 		session.insert(ns + ".levelData", levelMap);
+		System.out.println(levelMap);
 	}
 
 	@Override

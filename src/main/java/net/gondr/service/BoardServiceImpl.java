@@ -39,19 +39,4 @@ public class BoardServiceImpl implements BoardService {
 	public Integer countArticle(Criteria cri) {
 		return dao.getCnt(cri);
 	}
-	
-	@Override
-	public UserVO addExp(String userId, Integer exp) {
-		UserVO user = userDao.getuser(userId);
-		user.setExp(user.getExp() + exp);
-		Integer requireExp = userDao.getRequireExp(user.getUserid() + 1);
-		
-		if(user.getExp() >= requireExp) {
-			user.setExp(user.getExp() - requireExp);
-			user.setLevel(user.getLevel() + 1);
-		}
-		
-		// 경험치 증가 처리후 DB에 저장
-		userDao.setLevelAndExp(user);
-	}
 }

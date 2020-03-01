@@ -47,6 +47,7 @@
 			</form>
 			
 			<div th:if="${session.user != null}">
+				<button class="btn btn-outline-success" th:text="'레벨' + ${session.user.level}"></button>
 				<button class="btn btn-outline-success" th:text="${session.user.name} + '님'"></button>
 				<a href="/user/logout" class="btn btn-outline-warning">로그아웃</a>
 			</div>
@@ -61,7 +62,7 @@
 	</div>
 </header>
 
-<footer class="bg-primary text-white fixed-bottom" th:fragment="footer">  
+<footer class="bg-primary text-white mt-5" th:fragment="footer">  
 	<div class="text-center py-3">© 2018 Copyright: www.gondr.net</div>
 </footer>
 

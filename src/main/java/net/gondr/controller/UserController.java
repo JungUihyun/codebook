@@ -22,6 +22,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import net.gondr.domain.LoginDTO;
+import net.gondr.domain.ProfileDTO;
 import net.gondr.domain.RegisterDTO;
 import net.gondr.domain.UserVO;
 import net.gondr.service.UserService;
@@ -92,6 +93,20 @@ public class UserController {
 	public String viewLoginPage(Model model) {
 		model.addAttribute("loginDTO", new LoginDTO());
 		return "user/login";
+	}
+	
+	@RequestMapping(value = "logout", method = RequestMethod.GET)
+	public String userLogout(HttpSession session, Model model) {
+		session.removeAttribute("user");
+		session.invalidate();
+		
+		String msg = "로그아웃 성공";
+		
+		model.addAttribute("msg", msg);
+		System.out.println("로그아웃");
+		
+		
+		return "redirect:/"; // 로그아웃 성공시 메인페이지로 리다이렉트
 	}
 
 	@RequestMapping(value = "profile/{file:.+}")
