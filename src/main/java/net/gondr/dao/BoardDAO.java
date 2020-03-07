@@ -19,12 +19,12 @@ public interface BoardDAO {
 	public void update(BoardVO data);
 	// 현재 글의 개수
 	public Integer getCnt(Criteria cri);
-	// 댓글을 쓰는 매서드
-	public void comment_write(CommentVO data);
-	// 댓글 리스트 보기
-	public List<CommentVO> comment_list(Criteria cri);
-	// 현재 댓글의 개수
-	public Integer getCommentCnt(Criteria cri);
-	// 댓글삭제
-	public void comment_delete(Integer id);
+//	// 댓글을 쓰는 매서드
+//	public void comment_write(CommentVO data);
+//	// 댓글 리스트 보기
+//	public List<CommentVO> comment_list(Criteria cri);
+//	// 현재 댓글의 개수
+//	public Integer getCommentCnt(Criteria cri);
+//	// 댓글삭제
+//	public void comment_delete(Integer id);
 }

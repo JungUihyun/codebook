@@ -71,10 +71,10 @@
 		</interceptor>
 		<interceptor>
 			<mapping path="/user/logout"/>
-			<mapping path="/board/write"/>
+			<mapping path="/board/write/"/>
 			<mapping path="/board/write/*"/>
 			<mapping path="/board/delete/*"/>
-			<beans:ref bean="authInterceptor" />
+			<beans:ref bean="authInterceptor"/>
 		</interceptor>
 	</interceptors>
 

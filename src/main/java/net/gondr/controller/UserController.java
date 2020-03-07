@@ -95,19 +95,11 @@ public class UserController {
 		return "user/login";
 	}
 	
-	@RequestMapping(value = "logout", method = RequestMethod.GET)
-	public String userLogout(HttpSession session, Model model) {
-		session.removeAttribute("user");
-		session.invalidate();
-		
-		String msg = "로그아웃 성공";
-		
-		model.addAttribute("msg", msg);
-		System.out.println("로그아웃");
-		
-		
-		return "redirect:/"; // 로그아웃 성공시 메인페이지로 리다이렉트
-	}
+	@RequestMapping(value="logout", method=RequestMethod.GET)
+    public String userLogout(HttpSession session) {
+        session.removeAttribute("user");
+        return "redirect:/"; 
+    }
 
 	@RequestMapping(value = "profile/{file:.+}")
 	@ResponseBody

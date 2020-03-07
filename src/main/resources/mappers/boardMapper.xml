@@ -33,19 +33,3 @@
 		<include refid="search"></include>
 	</select>
 </mapper>
-<!-- 댓글 -->
-<!-- <mapper namespace="net.gondr.mappers.CommentMapper">
-	<insert id="comment_write">
-		INSERT INTO spring_comments (content, writer, board_idx)
-		VALUES ( #{content}, #{writer}, #{board_idx} )
-	</insert>
-	<select id="comment_list" resultType="CommentVO">
-		SELECT idx, title, writer, board_idx FROM spring_comments WHERE board_idx = #{board_idx}
-	</select>
-	<delete id="comment_delete">
-		DELETE FROM spring_comments WHERE idx = #{idx}
-	</delete>
-	<select id="comment_cnt" resultType="Integer">
-		SELECT count(*) FROM spring_comments WHERE board_idx = #{board_idx}
-	</select>
-</mapper> -->

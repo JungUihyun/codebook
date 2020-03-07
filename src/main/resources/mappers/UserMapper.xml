@@ -31,7 +31,7 @@
 	</select>
 	
 	<update id="setLevelAndExp">
-		UPDATE spring_users SET level = #{level}, exp = #{exp} WHERE userid = #{userid}
+		UPDATE spring_users SET level = #{level}, exp = #{exp} WHERE user_idx = #{userid}
 	</update>
 	
 </mapper>

@@ -23,13 +23,13 @@
 				<div class="user-group">
 					<a th:if="${session.user == null}" href="/user/login" class="bttn header-login-btn">로그인</a>
 					<a th:if="${session.user == null}" href="/user/register" class="bttn header-login-btn">회원가입</a>
-                    <a  th:if="${session.user != null}" th:text="${session.user.name}" href="#" class="bttn header-login-btn">유저이름</a>
-					<a  th:if="${session.user != null}" href="/user/logout" class="bttn header-login-btn">로그아웃</a>
+                    <a th:if="${session.user != null}" th:text="${session.user.name}" href="#" class="bttn header-login-btn">유저이름</a>
+					<a th:if="${session.user != null}" href="/user/logout" class="bttn header-login-btn">로그아웃</a>
 				</div>
 			</nav>
 		</div>
 	</header>
-    <div th:if="${msg != null}" class="alert alert-warning alert-dismissible fade show" role="alert">
+    <div th:if="${msg != null}" style="margin-top: 60px;" class="mb-0 alert alert-warning alert-dismissible fade show" role="alert">
 		<strong>알림!</strong>
 		<span th:text="${msg}">메시지</span>
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close">

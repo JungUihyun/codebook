@@ -46,11 +46,12 @@ public class UserServiceImpl implements UserService {
 		if(user.getExp() >= requireExp) {
 			user.setExp(user.getExp() - requireExp);
 			user.setLevel(user.getLevel() + 1);
+			System.out.println("레벨업");
 		}
 		
 		// 경험치 증가 처리후 DB에 저장
 		dao.setLevelAndExp(user);
+		
 		return user;
-	}
-	
+	}	
 }

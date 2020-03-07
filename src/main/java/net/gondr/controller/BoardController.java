@@ -115,6 +115,7 @@ public class BoardController {
 			// 글 작성
 			service.writeArticle(board);
 			user = userService.addExp(user.getUserid(), ExpData.MEDIUM); // 글을 한번 쓸 때마다 5의 exp를 지급
+			
 			session.setAttribute("user", user);
 		}
 		
