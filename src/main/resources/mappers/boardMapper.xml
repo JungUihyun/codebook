@@ -33,33 +33,19 @@
 		<include refid="search"></include>
 	</select>
 </mapper>
-<!-- 자유게시판 -->
-<mapper namespace="net.gondr.mappers.BoardMapper">
-	<sql id="free_search">
-		<if test="keyword != null">
-			where title LIKE CONCAT('%', #{keyword}, '%') OR content LIKE CONCAT('%', #{keyword}, '%')
-		</if>
-	</sql>
-	<insert id="free_write">
-		INSERT INTO spring_freeboards (title, content, writer, writeDate)
-		VALUES ( #{title}, #{content}, #{writer}, NOW() )
+<!-- 댓글 -->
+<!-- <mapper namespace="net.gondr.mappers.CommentMapper">
+	<insert id="comment_write">
+		INSERT INTO spring_comments (content, writer, board_idx)
+		VALUES ( #{content}, #{writer}, #{board_idx} )
 	</insert>
-	<select id="free_list" resultType="BoardVO">
-		SELECT id, title, writer, writeDate FROM spring_freeboards
-		<include refid="free_search"></include>
-		ORDER BY id DESC LIMIT #{pageStart}, #{perPageNum}
+	<select id="comment_list" resultType="CommentVO">
+		SELECT idx, title, writer, board_idx FROM spring_comments WHERE board_idx = #{board_idx}
 	</select>
-	<update id="free_update">
-		UPDATE spring_freeboards SET content = #{content}, title = #{title} WHERE id = #{id}
-	</update>
-	<delete id="free_delete">
-		DELETE FROM spring_freeboards WHERE id = #{id}
+	<delete id="comment_delete">
+		DELETE FROM spring_comments WHERE idx = #{idx}
 	</delete>
-	<select id="free_view" resultType="BoardVO">
-		SELECT b.*, u.name, u.img, u.level FROM spring_freeboards AS b, spring_users AS u WHERE id = #{id} AND u.userid = b.writer
+	<select id="comment_cnt" resultType="Integer">
+		SELECT count(*) FROM spring_comments WHERE board_idx = #{board_idx}
 	</select>
-	<select id="free_cnt" resultType="Integer">
-		SELECT count(*) FROM spring_freeboards
-		<include refid="free_search"></include>
-	</select>
-</mapper>
+</mapper> -->

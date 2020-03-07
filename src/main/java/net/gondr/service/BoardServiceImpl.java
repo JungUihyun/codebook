@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import net.gondr.dao.BoardDAO;
 import net.gondr.domain.BoardVO;
+import net.gondr.domain.CommentVO;
 import net.gondr.domain.Criteria;
 import net.gondr.domain.UserVO;
 
@@ -38,5 +39,10 @@ public class BoardServiceImpl implements BoardService {
 	
 	public Integer countArticle(Criteria cri) {
 		return dao.getCnt(cri);
+	}
+
+	@Override
+	public List<CommentVO> getArticleCommentList(Criteria cri) {
+		return dao.comment_list(cri);
 	}
 }

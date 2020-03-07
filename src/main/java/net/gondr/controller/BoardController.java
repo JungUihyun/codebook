@@ -22,6 +22,7 @@ import com.nhncorp.lucy.security.xss.LucyXssFilter;
 import com.nhncorp.lucy.security.xss.XssSaxFilter;
 
 import net.gondr.domain.BoardVO;
+import net.gondr.domain.CommentVO;
 import net.gondr.domain.Criteria;
 import net.gondr.domain.ExpData;
 import net.gondr.domain.UploadResponse;
@@ -125,6 +126,14 @@ public class BoardController {
 		BoardVO board = service.viewArticle(id);
 		model.addAttribute("board", board);
 		
+		List<CommentVO> comment_list = service.getArticleCommentList(criteria);
+		model.addAttribute("comment", comment_list);
+		
+		Integer cnt = service.countArticle(criteria);
+		criteria.calculate(cnt);
+		System.out.println(comment_list);
+		System.out.println(cnt);
+		
 		return "board/view";
 	}
 
@@ -135,6 +144,7 @@ public class BoardController {
 		
 		Integer cnt = service.countArticle(criteria);
 		criteria.calculate(cnt);
+		System.out.println("리스트 페이지");
 		
 		return "board/list";
 	}

@@ -2,38 +2,65 @@
 <html lang="ko" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="/fragments/layout :: head"></head>
-
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/app/css/list.css">
+    <link rel="stylesheet" href="/app/css/my_layout.css">
+    <link rel="stylesheet" href="/app/fontawesome/css/all.css">
+</head>
 <body>
-	<header th:replace="/fragments/layout :: header"></header>
-
-	<div class="container">
-		<div class="row">
-			<div class="col-10 offset-1">
-				<h2>로그인</h2>
-				<div class="error-msg" th:text="${msg}"></div>
-				<form method="post" th:action="@{/user/login}" th:object="${loginDTO}">
-					<div class="form-group">
-						<label for="userid">이메일(아이디)</label> 
-						<input type="email" class="form-control" th:errorclass="is-invalid" id="userid" placeholder="아이디로 사용할 이메일 주소" th:field="*{userid}">
-						<div th:errors="*{userid}" class="invalid-feedback">
-							사용자 아이디 오류시 보여줄 에러메시지
-						</div>
-					</div>
-					
-					<div class="form-group">
-						<label for="password">비밀번호</label>
-						<input type="password" class="form-control" id="password" th:errorclass="is-invalid" th:field="*{password}" placeholder="비밀번호를 입력하세요">
-						<div th:errors="*{password}" class="invalid-feedback">
-							비밀번호 관련 에러시 보여줄 메시지
-						</div>
-					</div>
-					
-					<button type="submit" class="btn btn-primary">로그인</button>
-				</form>
+    <!-- Header -->
+    <header>
+		<div class="container d-flex justify-content-between align-items-center h-100">
+			<div class="logo">
+				<a href="/">CodeBook</a>
 			</div>
+			<nav class="d-flex justify-content-between">
+				<div class="menu-group">
+					<a href="/">메인</a>
+                    <a href="/board/list">글목록</a>
+				</div>
+				<div class="user-group">
+					<a th:if="${session.user == null}" href="/user/login" class="bttn header-login-btn">로그인</a>
+					<a th:if="${session.user == null}" href="/user/register" class="bttn header-login-btn">회원가입</a>
+                    <a  th:if="${session.user != null}" th:text="${session.user.name}" href="#" class="bttn header-login-btn">유저이름</a>
+					<a  th:if="${session.user != null}" href="/user/logout" class="bttn header-login-btn">로그아웃</a>
+				</div>
+			</nav>
 		</div>
+    </header>
+    <div th:if="${msg != null}" class="alert alert-warning alert-dismissible fade show" role="alert">
+		<strong>알림!</strong>
+		<span th:text="${msg}">메시지</span>
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
 	</div>
-	<footer th:replace="/fragments/layout :: footer"></footer>
+    <!-- Header End -->
+
+    <div id="login" class="d-flex align-items-center">
+        <div class="container d-flex flex-column align-items-center">
+            <div class="title">CodeBook</div>
+            <form method="post" th:action="@{/user/login}" th:object="${loginDTO}" class="d-flex flex-column align-items-center">
+                <div class="input">
+                    <input type="email" class="id" name="userid" id="id" autocomplete="off" required th:errorclass="is-invalid" th:field="*{userid}">
+                    <label for="id">User ID</label>
+                </div>
+                <div class="input">
+                    <input type="password" class="password" name="password" id="password" autocomplete="off" required th:errorclass="is-invalid" th:field="*{password}">
+                    <label for="password">User Password</label>
+                </div>
+                <button type="submit">LOGIN</button>
+            </form>
+        </div>
+    </div>
+
+
+
+    <!-- Script -->
+    <script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
+	<script src="/webjars/popper.js/1.15.0/umd/popper.min.js"></script>
+	<script src="/webjars/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <!-- Script End -->
 </body>
 </html>
