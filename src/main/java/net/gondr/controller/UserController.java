@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import net.gondr.domain.LoginDTO;
 import net.gondr.domain.RegisterDTO;
@@ -103,7 +102,7 @@ public class UserController {
 	@RequestMapping(value = { "profile", "profile/{file:.+}" }, method = RequestMethod.GET)
 	@ResponseBody
 	public byte[] getUserProfile(@PathVariable Optional<String> file) throws IOException {
-		String uploadPath = context.getRealPath("/WEB-INF/upload");
+		String uploadPath = context.getRealPath("/WEB-INF/upload");		
 		String imgFile = "default.png";
 		if (file.isPresent()) {
 			imgFile = file.get();

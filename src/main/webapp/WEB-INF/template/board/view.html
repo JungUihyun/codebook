@@ -13,35 +13,81 @@
 			<div class="col-10 offset-1">
 				<div class="row d-flex mb-2">
 					<!--   이미지 박스 -->
-					<div class="ml-2" style="width:128px;height:128px;">
-						<img th:src="@{ '/user/profile/' + ${board.img}}" alt="" style="width:128px;height:128px;"/>
+					<div class="ml-2" style="width: 128px; height: 128px;">
+						<img th:src="@{ '/user/profile/' + ${board.img}}" alt=""
+							style="width: 128px; height: 128px;" />
 					</div>
 					<div class="col">
 						<h4 class="card-title" th:text="${board.title}"></h4>
 						<p class="card-text">
 							<span class="badge badge-primary"
 								th:text="@{${board.name} + '(' + ${board.writer} + ')'}"></span>
-							<span class="badge badge-secondary" 
-								th:text="@{ 'LV.[' + ${board.level} +']'}"></span>
-							<span class="badge badge-warning"
+							<span class="badge badge-secondary"
+								th:text="@{ 'LV.[' + ${board.level} +']'}"></span> <span
+								class="badge badge-warning"
 								th:text="@{ '작성일: ' + ${#dates.format(board.writeDate, 'yyyy-MM-dd') }}"></span>
 						</p>
 					</div>
 				</div>
 				<div class="card">
-					<div class="card-body" th:utext="${board.content}">
-					</div>
+					<div class="card-body" th:utext="${board.content}"></div>
 				</div>
 			</div>
 		</div>
 		<div class="row mt-3">
 			<div class="col-10 offset-1 text-right">
-				<th:block th:if="${session.user != null and session.user.userid == board.writer}">
-					<a th:href="@{'/board/write/' + ${board.id} }" class="btn btn-success">수정</a>
-					<a th:href="@{'/board/delete/' + ${board.id} }" class="btn btn-danger">삭제</a>
+				<th:block
+					th:if="${session.user != null and session.user.userid == board.writer}">
+					<a th:href="@{'/board/write/' + ${board.id} }"
+						class="btn btn-success">수정</a>
+					<a th:href="@{'/board/delete/' + ${board.id} }"
+						class="btn btn-danger">삭제</a>
 				</th:block>
 				<a href="/board/list" class="btn btn-primary">목록보기</a>
-			</div> 
+			</div>
+		</div>
+		<div class="row mt-3">
+			<div class="col-10 offset-1">
+				<div class="card-header bg-white">댓글</div>
+				<div class="card mt-1">
+					<div class="card-body">
+						<h5 class="card-title">
+							작성자
+							</h3>
+							<p class="card-text">댓글 내용</p>
+							<!-- 댓글의 작성자가 로그인한 유저일 때 -->
+							<div class="col-13 text-right">
+								<a href="#" class="btn btn-danger">삭제</a>
+							</div>
+					</div>
+				</div>
+				<th:block th:if="${ board.id == comment.board_idx }"
+					th:each="comment : ${comment}">
+					<div class="card mt-1">
+						<div class="card-body">
+							<h5 th:text="${comment.idx}" class="card-title">
+								작성자
+								</h3>
+								<p th:text="${comment.content}" class="card-text">댓글 내용</p>
+								<!-- 댓글의 작성자가 로그인한 유저일 때 -->
+								<div class="col-13 text-right">
+									<a
+										th:if="${session.user != null and session.user.userid == comment.writer}"
+										th:href="#" class="btn btn-danger">삭제</a> <a href="#"
+										class="btn btn-danger">삭제</a>
+								</div>
+						</div>
+					</div>
+				</th:block>
+				<div class="input-group mt-3">
+					<input type="text" class="form-control" placeholder="댓글 내용"
+						aria-label="Recipient's username" aria-describedby="button-addon2">
+					<div class="input-group-append">
+						<button class="btn btn-outline-secondary" type="button"
+							id="button-addon2">작성</button>
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
 	<footer th:replace="/fragments/layout :: footer"></footer>
