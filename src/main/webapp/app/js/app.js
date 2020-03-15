@@ -53,9 +53,9 @@ window.onload = function(){
 					enctype: 'multipart/form-data',
 					dataType: 'json',
 					processData: false,
-					//프로세스 데이터를 안하면 서버로 보낼때 Parameter로 보내게 된다.
+					// 프로세스 데이터를 안하면 서버로 보낼때 Parameter로 보내게 된다.
 					contentType:false, 
-					//꺼주면 제이쿼리가 자동으로 판단해서 파일전송으로 처리한다.
+					// 꺼주면 제이쿼리가 자동으로 판단해서 파일전송으로 처리한다.
 					success:(data) => {
 						editor.insertContent(
 							`<img class='content-img' 
