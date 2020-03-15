@@ -22,6 +22,7 @@ import com.nhncorp.lucy.security.xss.LucyXssFilter;
 import com.nhncorp.lucy.security.xss.XssSaxFilter;
 
 import net.gondr.domain.BoardVO;
+import net.gondr.domain.CommentVO;
 import net.gondr.domain.Criteria;
 import net.gondr.domain.ExpData;
 import net.gondr.domain.UploadResponse;
@@ -40,7 +41,7 @@ public class BoardController {
 
 	@Autowired
 	private BoardService service;
-	
+
 	@Autowired
 	private UserService userService;
 
@@ -121,9 +122,14 @@ public class BoardController {
 	}
 
 	@RequestMapping(value = "view/{id}", method = RequestMethod.GET)
-	public String viewArticle(@PathVariable Integer id, Model model) {
+	public String viewArticle(@PathVariable Integer id, Model model, Criteria criteria) {
 		BoardVO board = service.viewArticle(id);
 		model.addAttribute("board", board);
+		
+		model.addAttribute("commentVO", new CommentVO());
+		List<CommentVO> comment_list = service.getCommentList((criteria));
+		model.addAttribute("comments", comment_list);
+		
 		return "board/view";
 	}
 
@@ -153,17 +159,17 @@ public class BoardController {
 		model.addAttribute("boardVO", data);
 		return "board/write";
 	}
-	
-	@RequestMapping(value="delete/{id}", method=RequestMethod.GET)
+
+	@RequestMapping(value = "delete/{id}", method = RequestMethod.GET)
 	public String deleteArticle(@PathVariable("id") Integer id, HttpSession session, RedirectAttributes rttr) {
-		UserVO user = (UserVO)session.getAttribute("user");
+		UserVO user = (UserVO) session.getAttribute("user");
 		BoardVO data = service.viewArticle(id);
-		
-		if(!user.getUserid().equals(data.getWriter())) {
+
+		if (!user.getUserid().equals(data.getWriter())) {
 			rttr.addFlashAttribute("msg", "삭제 권한이 없습니다.");
 			return "redirect:/board/view/" + data.getId();
 		}
-		
+
 		service.deleteArticle(id);
 		rttr.addFlashAttribute("msg", "성공적으로 삭제되었습니다.");
 		return "redirect:/board/list";

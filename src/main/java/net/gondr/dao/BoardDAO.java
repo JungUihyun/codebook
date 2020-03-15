@@ -3,6 +3,7 @@ package net.gondr.dao;
 import java.util.List;
 
 import net.gondr.domain.BoardVO;
+import net.gondr.domain.CommentVO;
 import net.gondr.domain.Criteria;
 
 public interface BoardDAO {
@@ -17,4 +18,10 @@ public interface BoardDAO {
 	public void update(BoardVO data);
 	//현재 글의 갯수를 가져오는 것
 	public Integer getCnt(Criteria cri);
+	
+	
+	// 댓글 리스트 보기
+	public List<CommentVO> comments(Criteria cri);
+	public void write(CommentVO data);
+	public void deleteComment(Integer idx);
 }

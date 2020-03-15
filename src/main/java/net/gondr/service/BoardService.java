@@ -3,6 +3,7 @@ package net.gondr.service;
 import java.util.List;
 
 import net.gondr.domain.BoardVO;
+import net.gondr.domain.CommentVO;
 import net.gondr.domain.Criteria;
 
 public interface BoardService {
@@ -18,4 +19,14 @@ public interface BoardService {
 	public void deleteArticle(Integer id);
 	//글 갯수 가져오기
 	public Integer countArticle(Criteria cri);
+	
+	
+	
+	// 댓글 리스트 보기
+	public List<CommentVO> getCommentList(Criteria cri);
+	// 댓글 작성
+	public void writeComment(CommentVO comment);
+	// 댓글 삭제
+	public void deleteComment(Integer idx);
+	
 }
