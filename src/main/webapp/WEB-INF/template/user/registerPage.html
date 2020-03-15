@@ -2,59 +2,113 @@
 <html lang="ko" xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="/fragments/layout :: head"></head>
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/app/css/list.css">
+    <link rel="stylesheet" href="/app/css/my_layout.css">
+    <link rel="stylesheet" href="/app/fontawesome/css/all.css">
+</head>
 
 <body>
-	<header th:replace="/fragments/layout :: header"></header>
-
-	<div class="container">
-		<div class="row">
-			<div class="col-10 offset-1">
-				<h2>회원 가입</h2>
-				<form method="post" th:action="@{/user/register}" enctype="multipart/form-data" th:object="${registerDTO}">
-					<div class="form-group">
-						<label for="userid">이메일(아이디)</label> 
-						<input type="email" class="form-control" th:errorclass="is-invalid" id="userid" placeholder="아이디로 사용할 이메일 주소" th:field="*{userid}">
-						<small id="emailHelp" class="form-text text-muted">사용자 아이디로 쓸 이메일 주소를 입력하세요.</small>
-						<div th:errors="*{userid}" class="invalid-feedback">
-							사용자 아이디 오류시 보여줄 에러메시지
-						</div>
-					</div>
-					
-					<div class="form-group">
-						<label for="username">회원이름</label> 
-						<input type="text" class="form-control" th:errorclass="is-invalid" id="username" placeholder="사용자의 이름" th:field="*{username}">
-						<div th:errors="*{username}" class="invalid-feedback">
-							회원이름 관련 에러시 보여줄 메시지
-						</div>
-					</div>
-					
-					<div class="form-group">
-						<label for="password">비밀번호</label>
-						<input type="password" class="form-control" id="password" th:errorclass="is-invalid" th:field="*{password}" placeholder="비밀번호를 입력하세요">
-						<div th:errors="*{password}" class="invalid-feedback">
-							비밀번호 관련 에러시 보여줄 메시지
-						</div>
-					</div>
-					
-					<div class="form-group">
-						<label for="password">비밀번호 확인</label>
-						<input type="password" class="form-control" id="passwordConfirm" th:field="*{passwordConfirm}" placeholder="비밀번호를 확인 입력하세요">
-					</div>
-					
-					<div class="form-group">
-						<label for="profileImg">프로필 이미지 업로드</label>
-						<input type="file" class="form-control-file" id="profileImg" th:field="*{profileImg}" th:errorclass="is-invalid">
-						<div th:errors="*{profileImg}" class="invalid-feedback">
-							프로필 이미지 형식 불일치시 보여줄 메시지
-						</div>
-					</div>
-					
-					<button type="submit" class="btn btn-primary">회원가입</button>
-				</form>
-			</div>
-		</div>
-	</div>
-	<footer th:replace="/fragments/layout :: footer"></footer>
+    <!-- Header -->
+    <header>
+        <div class="container d-flex justify-content-between align-items-center h-100">
+            <div class="logo">
+                <a href="/">CodeBook</a>
+            </div>
+            <nav class="d-flex justify-content-between">
+                <div class="menu-group">
+                    <a href="/">메인</a>
+                    <a href="/board/list">글목록</a>
+                </div>
+                <div class="user-group">
+                    <a th:if="${session.user == null}" href="/user/login" class="bttn header-login-btn">로그인</a>
+                    <a th:if="${session.user == null}" href="/user/register" class="bttn header-login-btn">회원가입</a>
+                    <a  th:if="${session.user != null}" th:text="${session.user.name}" href="#" class="bttn header-login-btn">유저이름</a>
+                    <a  th:if="${session.user != null}" href="/user/logout" class="bttn header-login-btn">로그아웃</a>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <div th:if="${msg != null}" style="margin-top: 60px" class="mb-0 alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>알림!</strong>
+        <span th:text="${msg}">메시지</span>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <!-- Header End -->
+    
+    <!-- Join -->
+    <div id="join" class="d-flex justify-content-between align-items-center">
+        <div class="container d-flex flex-column align-items-center">
+            <div class="title">CodeBook</div>
+            <form method="POST" class="d-flex flex-column align-items-center" th:action="@{/user/register}" enctype="multipart/form-data" th:object="${registerDTO}">
+                <div class="input">
+                    <input type="email" class="id" name="userid" id="id" autocomplete="off" required th:errorclass="is-invalid" th:field="*{userid}">
+                    <label for="id">User ID</label>
+                    <small id="emailHelp" class="form-text text-muted">사용자 아이디로 쓸 이메일 주소를 입력하세요.</small>
+                    <div th:errors="*{userid}" class="invalid-feedback">
+                        사용자 아이디 오류시 보여줄 에러메시지
+                    </div>
+                </div>
+                <div class="input">
+                    <input type="text" class="username" name="username" id="username" autocomplete="off" required th:errorclass="is-invalid" th:field="*{username}">
+                    <label for="username">User Name</label>
+                    <div th:errors="*{username}" class="invalid-feedback">
+                        회원이름 관련 에러시 보여줄 메시지
+                    </div>
+                </div>
+                <div class="input">
+                    <input type="password" class="password" name="password" id="password" autocomplete="off" required th:errorclass="is-invalid" th:field="*{password}">
+                    <label for="password">User Password</label>
+                    <div th:errors="*{password}" class="invalid-feedback">
+                        비밀번호 관련 에러시 보여줄 메시지
+                    </div>
+                </div>
+                <div class="input">
+                    <input type="password" class="passwordConfirm" name="passwordConfirm" id="passwordConfirm" autocomplete="off" required th:field="*{passwordConfirm}">
+                    <label for="passwordConfirm">User Password Check</label>
+                </div>
+                <div class="input">
+                    <input type="file" class="profile" name="profileImg" id="profileImg" autocomplete="off" required th:field="*{profileImg}" th:errorclass="is-invalid">
+                    <label class="profileLabel" for="profileImg">User Profile Image</label>
+                    <div th:errors="*{profileImg}" class="invalid-feedback">
+                        프로필 이미지 형식 불일치시 보여줄 메시지
+                    </div>
+                </div>
+                <button type="submit">JOIN</button>
+            </form>
+        </div>
+    </div>
+    <!-- Join End -->
+    
+    <!-- Footer -->
+    <footer>
+        <div class="footer-menu d-flex align-items-center">
+            <div class="container">
+                <a href="#">사이트소개</a>
+                <a href="#">이용약관</a>
+                <a href="#">개인정보처리방침</a>
+                <a href="#">문의/피드백</a>
+                <a href="#">광고</a>
+            </div>
+        </div>
+        <div class="footer-content">
+            <div class="container d-flex justify-content-between">
+                <div>
+					경기 성남시 분당구 불정로 386번길 35 양영디지털고등학교<br>
+                    Tel: 031) 123-4567 / Phone: 010) 1234-5678<br><br>
+                    © CODEBOOK. ANNONYMOUS All rights reserved
+                </div>
+                <div>
+                    <img src="/app/images/twitter.png" alt="">
+                    <img src="/app/images/instagram.png" alt="">
+                    <img src="/app/images/facebook.png" alt="">
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer End -->
 </body>
 </html>

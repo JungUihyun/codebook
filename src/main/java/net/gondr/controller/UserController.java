@@ -22,7 +22,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import net.gondr.domain.LoginDTO;
-import net.gondr.domain.ProfileDTO;
 import net.gondr.domain.RegisterDTO;
 import net.gondr.domain.UserVO;
 import net.gondr.service.UserService;
@@ -72,7 +71,7 @@ public class UserController {
 
 	@RequestMapping(value = "login", method = RequestMethod.POST)
 	public String userLogin(LoginDTO loginDTO, HttpSession session, Model model) {
-		String msg = "로그인 실패, 아이디와 비밀번호를 확인하세요";
+		String msg = "로그인 실패, 아이디와 비밀번호를 확인하세요.";
 		if (loginDTO.getUserid() == "" || loginDTO.getPassword() == "") {
 			model.addAttribute("msg", msg);
 			return "user/login";
@@ -94,24 +93,23 @@ public class UserController {
 		model.addAttribute("loginDTO", new LoginDTO());
 		return "user/login";
 	}
-	
-	@RequestMapping(value="logout", method=RequestMethod.GET)
-    public String userLogout(HttpSession session) {
-        session.removeAttribute("user");
-        return "redirect:/"; 
-    }
 
-	@RequestMapping(value = "profile/{file:.+}")
+	@RequestMapping(value = "logout", method = RequestMethod.GET)
+	public String userLogout(HttpSession session) {
+		session.removeAttribute("user");
+		return "redirect:/";
+	}
+
+	@RequestMapping(value = { "profile", "profile/{file:.+}" }, method = RequestMethod.GET)
 	@ResponseBody
 	public byte[] getUserProfile(@PathVariable Optional<String> file) throws IOException {
 		String uploadPath = context.getRealPath("/WEB-INF/upload");
 		String imgFile = "default.png";
-		
-		if(file.isPresent()) {
+		if (file.isPresent()) {
 			imgFile = file.get();
 		}
 		try {
-			File profile = new File(uploadPath + File.separator + imgFile);
+			File profile = new File(uploadPath + File.pathSeparator + imgFile);
 			FileInputStream in = new FileInputStream(profile);
 			return IOUtils.toByteArray(in);
 		} catch (FileNotFoundException e) {
@@ -120,11 +118,12 @@ public class UserController {
 			return IOUtils.toByteArray(in);
 		}
 	}
-	
-	@RequestMapping(value="level/make", method=RequestMethod.GET)
-	public String makeLevel(RedirectAttributes rttr) {
-		service.fillLevelTable(200);	// 200 레벨까지 경험치 생성
-		rttr.addFlashAttribute("msg", "레벨 생성이 완료되었습니다.");
-		return "redirect:/";
-	}
+
+// 경험치 리셋 코드
+//	@RequestMapping(value = "level/make", method = RequestMethod.GET)
+//	public String makeLevel(RedirectAttributes rttr) {
+//		service.fillLevelTable(200); // 200레벨까지 경험치 생성
+//		rttr.addFlashAttribute("msg", "레벨 생성이 완료되었습니다.");
+//		return "redirect:/";
+//	}
 }

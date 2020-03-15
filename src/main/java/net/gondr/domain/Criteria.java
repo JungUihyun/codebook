@@ -2,7 +2,7 @@ package net.gondr.domain;
 
 public class Criteria {
 	private Integer page; // 현재 보고자 하는 페이지 번호
-	private Integer perPageNum; // 페이지당 글의 개수
+	private Integer perPageNum; // 페이지당 글의 갯수
 	private Integer perChapterNum; // 챕터당 페이지의 수
 	private String keyword;
 
@@ -31,7 +31,7 @@ public class Criteria {
 
 		// 끝번호
 		end = (int) Math.ceil((double) page / perChapterNum) * perChapterNum;
-		start = end - perChapterNum + 1;
+		start = end - perChapterNum + 1; // 시작번호
 
 		if (end >= totalPage) {
 			end = totalPage;
@@ -41,6 +41,18 @@ public class Criteria {
 		if (start == 1) {
 			prev = false;
 		}
+	}
+	
+	public Integer getPageStart() {
+		return (page - 1) * perPageNum;
+	}
+	
+	public String getQuery(Integer page) {
+		String q = "?page=" + page;
+		if(this.keyword != null) {
+			q += "&keyword=" + this.keyword;
+		}
+		return q;
 	}
 
 	public boolean isPrev() {
@@ -113,18 +125,6 @@ public class Criteria {
 
 	public void setKeyword(String keyword) {
 		this.keyword = keyword;
-	}
-	
-	public Integer getPageStart() {
-		return (page - 1) * perPageNum;
-	}
-	
-	public String getQuery(Integer page) {
-		String q = "?page=" + page;
-		if(this.keyword != null) {
-			q += "&keyword=" + this.keyword;
-		}
-		return q;
 	}
 
 }

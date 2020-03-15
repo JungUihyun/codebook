@@ -22,7 +22,6 @@ import com.nhncorp.lucy.security.xss.LucyXssFilter;
 import com.nhncorp.lucy.security.xss.XssSaxFilter;
 
 import net.gondr.domain.BoardVO;
-import net.gondr.domain.CommentVO;
 import net.gondr.domain.Criteria;
 import net.gondr.domain.ExpData;
 import net.gondr.domain.UploadResponse;
@@ -82,85 +81,76 @@ public class BoardController {
 
 	}
 
-	@RequestMapping(value="write", method=RequestMethod.POST)
+	@RequestMapping(value = "write", method = RequestMethod.POST)
 	public String writeProcess(BoardVO board, HttpSession session, Errors errors, RedirectAttributes rttr) {
 		// 올바른 값인지 벨리데이팅
 		new BoardValidator().validate(board, errors);
-		if(errors.hasErrors()) {
+		if (errors.hasErrors()) {
 			return "board/write"; // 에러가 존재하면 글쓰기 페이지로 보냄.
 		}
-		
 		// 여기는 인터셉터에 의해서 로그인하지 않은 사용자는 막히게 될 것이기 때문에 그냥 에러처리 없이 user를 불러써도 된다.
-		UserVO user = (UserVO)session.getAttribute("user");
-		
-		// 글 수정시에는 권한 검사
-		if(board.getId() != null) {
+		UserVO user = (UserVO) session.getAttribute("user");
+
+		if (board.getId() != null) {
 			BoardVO data = service.viewArticle(board.getId());
-			if(data == null || !user.getUserid().equals(data.getWriter())) {
+			if (data == null || !user.getUserid().equals(data.getWriter())) {
 				rttr.addFlashAttribute("msg", "권한이 없습니다.");
-				return "redirect:/board/view/" + board.getId(); // 해당 글로 다시 돌려보내기 
+				return "redirect:/board/list";
 			}
-		}	// 로그인한 사용자의 아이디를 글쓴이로 등록하고
+		}
+
+		// 로그인한 사용자의 아이디를 글쓴이로 등록하고
 		board.setWriter(user.getUserid());
-		
+
 		LucyXssFilter filter = XssSaxFilter.getInstance("lucy-xss-sax.xml");
 		String clean = filter.doFilter(board.getContent());
 		board.setContent(clean);
-		
+
 		// 실제 DB에 글을 기록함.
-		if(board.getId() != null) {
+		if (board.getId() != null) {
 			// 글 수정
 			service.updateArticle(board);
 		} else {
 			// 글 작성
 			service.writeArticle(board);
 			user = userService.addExp(user.getUserid(), ExpData.MEDIUM); // 글을 한번 쓸 때마다 5의 exp를 지급
-			
-			session.setAttribute("user", user);
+			session.setAttribute("user", user); // 갱신 후 세션값 재설정
 		}
-		
+
 		return "redirect:/board/list";
 	}
 
 	@RequestMapping(value = "view/{id}", method = RequestMethod.GET)
-	public String viewArticle(@PathVariable Integer id, Model model, Criteria criteria) {
+	public String viewArticle(@PathVariable Integer id, Model model) {
 		BoardVO board = service.viewArticle(id);
 		model.addAttribute("board", board);
-		
-		List<CommentVO> comment_list = service.getArticleCommentList(criteria);
-		model.addAttribute("comment", comment_list);
-		
-		Integer cnt = service.countArticle(criteria);
-		criteria.calculate(cnt);
-		System.out.println(comment_list);
-		System.out.println(cnt);
-		
 		return "board/view";
 	}
 
 	@RequestMapping(value = "list", method = RequestMethod.GET)
 	public String viewList(Criteria criteria, Model model) {
-		List<BoardVO> list = service.getArticleList(criteria);
+		List<BoardVO> list = service.getArticleList((criteria));
 		model.addAttribute("list", list);
-		
+
 		Integer cnt = service.countArticle(criteria);
 		criteria.calculate(cnt);
-		System.out.println("리스트 페이지");
-		
+
 		return "board/list";
 	}
-	
-	@RequestMapping(value="write/{id}", method=RequestMethod.GET)
-	public String viewModPage(Model model, @PathVariable("id") Integer id, HttpSession session, RedirectAttributes rttr ) {
+
+	@RequestMapping(value = "write/{id}", method = RequestMethod.GET)
+	public String viewModPage(Model model, @PathVariable("id") Integer id, HttpSession session,
+			RedirectAttributes rttr) {
+
 		BoardVO data = service.viewArticle(id);
-		UserVO user = (UserVO)session.getAttribute("user");
-		
-		if(data == null || !data.getWriter().equals(user.getUserid())) {
+		UserVO user = (UserVO) session.getAttribute("user");
+
+		if (data == null || !data.getWriter().equals(user.getUserid())) {
 			rttr.addFlashAttribute("msg", "수정할 권한이 없습니다.");
 			return "redirect:/board/list";
 		}
-		
-		model.addAttribute("boradVO", data);
+
+		model.addAttribute("boardVO", data);
 		return "board/write";
 	}
 	
@@ -177,6 +167,5 @@ public class BoardController {
 		service.deleteArticle(id);
 		rttr.addFlashAttribute("msg", "성공적으로 삭제되었습니다.");
 		return "redirect:/board/list";
-		
 	}
 }

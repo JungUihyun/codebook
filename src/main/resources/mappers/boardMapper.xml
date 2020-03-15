@@ -3,7 +3,6 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<!-- 일반게시판 -->
 <mapper namespace="net.gondr.mappers.BoardMapper">
 	<sql id="search">
 		<if test="keyword != null">
@@ -15,18 +14,21 @@
 		VALUES ( #{title}, #{content}, #{writer}, NOW() )
 	</insert>
 	<select id="list" resultType="BoardVO">
-		SELECT id, title, writer, writeDate FROM spring_boards
+		SELECT * FROM spring_boards
 		<include refid="search"></include>
 		ORDER BY id DESC LIMIT #{pageStart}, #{perPageNum}
 	</select>
 	<update id="update">
-		UPDATE spring_boards SET content = #{content}, title = #{title} WHERE id = #{id}
+		UPDATE spring_boards SET content = #{content}, 
+		title = #{title} WHERE id = #{id}
 	</update>
 	<delete id="delete">
 		DELETE FROM spring_boards WHERE id = #{id}
 	</delete>
 	<select id="view" resultType="BoardVO">
-		SELECT b.*, u.name, u.img, u.level FROM spring_boards AS b, spring_users AS u WHERE id = #{id} AND u.userid = b.writer
+		SELECT b.*, u.name, u.img, u.level FROM 
+		spring_boards AS b, spring_users AS u 
+		WHERE id = #{id} AND u.userid = b.writer
 	</select>
 	<select id="cnt" resultType="Integer">
 		SELECT count(*) FROM spring_boards

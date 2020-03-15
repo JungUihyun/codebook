@@ -29,7 +29,7 @@
 			</nav>
 		</div>
     </header>
-    <div th:if="${msg != null}" style="margin-top: 60px;" class="mb-0 alert alert-warning alert-dismissible fade show" role="alert">
+    <div th:if="${msg != null}" style="margin-top: 60px" class="mb-0 alert alert-warning alert-dismissible fade show" role="alert">
 		<strong>알림!</strong>
 		<span th:text="${msg}">메시지</span>
 		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -55,7 +55,33 @@
         </div>
     </div>
 
-
+    <!-- Footer -->
+    <footer>
+        <div class="footer-menu d-flex align-items-center">
+            <div class="container">
+                <a href="#">사이트소개</a>
+                <a href="#">이용약관</a>
+                <a href="#">개인정보처리방침</a>
+                <a href="#">문의/피드백</a>
+                <a href="#">광고</a>
+            </div>
+        </div>
+        <div class="footer-content">
+            <div class="container d-flex justify-content-between">
+                <div>
+					경기 성남시 분당구 불정로 386번길 35 양영디지털고등학교<br>
+                    Tel: 031) 123-4567 / Phone: 010) 1234-5678<br><br>
+                    © CODEBOOK. ANNONYMOUS All rights reserved
+                </div>
+                <div>
+                    <img src="/app/images/twitter.png" alt="">
+                    <img src="/app/images/instagram.png" alt="">
+                    <img src="/app/images/facebook.png" alt="">
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Footer End -->
 
     <!-- Script -->
     <script src="/webjars/jquery/3.4.1/jquery.min.js"></script>

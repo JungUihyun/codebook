@@ -14,22 +14,24 @@
 		VALUES ( #{title}, #{content}, #{writer}, NOW() )
 	</insert>
 	<select id="list" resultType="BoardVO">
-		SELECT id, title, writer, writeDate FROM spring_boards
+		SELECT * FROM spring_boards
 		<include refid="search"></include>
 		ORDER BY id DESC LIMIT #{pageStart}, #{perPageNum}
 	</select>
 	<update id="update">
-		UPDATE spring_boards SET content = #{content}, title = #{title} WHERE id = #{id}
+		UPDATE spring_boards SET content = #{content}, 
+		title = #{title} WHERE id = #{id}
 	</update>
 	<delete id="delete">
 		DELETE FROM spring_boards WHERE id = #{id}
 	</delete>
 	<select id="view" resultType="BoardVO">
-		SELECT b.*, u.name, u.img, u.level FROM spring_boards AS b, spring_users AS u WHERE id = #{id} AND u.userid = b.writer
+		SELECT b.*, u.name, u.img, u.level FROM 
+		spring_boards AS b, spring_users AS u 
+		WHERE id = #{id} AND u.userid = b.writer
 	</select>
 	<select id="cnt" resultType="Integer">
 		SELECT count(*) FROM spring_boards
 		<include refid="search"></include>
 	</select>
-		
 </mapper>

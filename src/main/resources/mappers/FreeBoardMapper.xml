@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.gondr.mappers.FreeBoardMapper">
+	<sql id="search">
+		<if test="keyword != null">
+			where title LIKE CONCAT('%', #{keyword}, '%') OR content LIKE CONCAT('%', #{keyword}, '%')
+		</if>
+	</sql>
+	<insert id="write">
+		INSERT INTO spring_freeBoards (title, content, writer, writeDate)
+		VALUES ( #{title}, #{content}, #{writer}, NOW() )
+	</insert>
+	<select id="list" resultType="FreeBoardVO">
+		SELECT * FROM spring_freeBoards
+		<include refid="search"></include>
+		ORDER BY id DESC LIMIT #{pageStart}, #{perPageNum}
+	</select>
+	<update id="update">
+		UPDATE spring_freeBoards SET content = #{content}, 
+		title = #{title} WHERE id = #{id}
+	</update>
+	<delete id="delete">
+		DELETE FROM spring_freeBoards WHERE id = #{id}
+	</delete>
+	<select id="view" resultType="FreeBoardVO">
+		SELECT b.*, u.name, u.img, u.level FROM 
+		spring_freeBoards AS b, spring_users AS u 
+		WHERE id = #{id} AND u.userid = b.writer
+	</select>
+	<select id="cnt" resultType="Integer">
+		SELECT count(*) FROM spring_freeBoards
+		<include refid="search"></include>
+	</select>
+</mapper>

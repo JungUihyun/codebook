@@ -3,12 +3,10 @@
 	xmlns:th="http://www.thymeleaf.org" >
 <head th:fragment="head">
 	<link rel="stylesheet" href="/webjars/bootstrap/4.4.1/css/bootstrap.min.css">
-    <!-- <link rel="stylesheet" href="/app/css/list.css">
-    <link rel="stylesheet" href="/app/css/my_layout.css">
-    <link rel="stylesheet" href="/app/fontawesome/css/all.css"> -->
     <script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
 	<script src="/webjars/popper.js/1.15.0/umd/popper.min.js"></script>
 	<script src="/webjars/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+	
 	<script>
 		$(function() {
 			if(document.body.clientHeight > window.innerHeight - 24) {
@@ -42,7 +40,7 @@
 				</li>
 			</ul>
 			
-			<form th:if="${session.user == null}" class="form-inline my-2 my-lg-0" action="/user/login" method="post">
+			<form th:if="${session.user == null}"  class="form-inline my-2 my-lg-0" action="/user/login" method="post">
 				<input class="form-control mr-sm-2" type="text" placeholder="회원아이디" name="userid">
 				<input class="form-control mr-sm-2" type="password" placeholder="비밀번호" name="password">
 				<button class="btn btn-outline-success my-2 mr-2 my-sm-0" type="submit">로그인</button>
@@ -50,9 +48,11 @@
 			</form>
 			
 			<div th:if="${session.user != null}">
-				<button class="btn btn-outline-success" th:text="'레벨' + ${session.user.level}"></button>
-				<button class="btn btn-outline-success" th:text="${session.user.name} + '님'"></button>
-				<a href="/user/logout" class="btn btn-outline-warning">로그아웃</a>
+				<button class="btn btn-outline-success" 
+						th:text="${session.user.name} + '님'"></button>
+				<a href="/user/logout" class="btn btn-outline-warning">
+					로그아웃
+				</a>
 			</div>
 		</div>
 	</nav>
@@ -65,7 +65,7 @@
 	</div>
 </header>
 
-<footer class="bg-primary text-white mt-5" th:fragment="footer">  
+<footer class="bg-primary text-white fixed-bottom" th:fragment="footer">  
 	<div class="text-center py-3">© 2018 Copyright: www.gondr.net</div>
 </footer>
 

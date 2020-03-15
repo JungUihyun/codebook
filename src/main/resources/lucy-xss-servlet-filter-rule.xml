@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- version 20180725-1 -->
-<config xmlns="http://www.nhncorp.com/lucy-xss"
-	extends="lucy-xss-default-sax.xml">
+<config xmlns="http://www.nhncorp.com/lucy-xss" extends="lucy-xss-default-sax.xml">
 	<elementRule>
 		<element name="body" disable="true" /> <!-- <BODY ONLOAD=alert("XSS")>, <BODY BACKGROUND="javascript:alert('XSS')"> -->
 		<element name="embed" disable="true" />
@@ -33,6 +32,6 @@
 			<notAllowedPattern><![CDATA[(?i:j\\*a\\*v\\*a\\*s\\*c\\*r\\*i\\*p\\*t\\*:)]]></notAllowedPattern>
 			<notAllowedPattern><![CDATA[&[#\\%x]+[\da-fA-F][\da-fA-F]+]]></notAllowedPattern>
 		</attribute>
-		<attribute name="formaction" disable="true" />
+		<attribute name="formaction" disable="true"/>
 	</attributeRule>
 </config>
