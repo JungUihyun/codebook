@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.nhncorp.lucy.security.xss.LucyXssFilter;
 import com.nhncorp.lucy.security.xss.XssSaxFilter;
 
+import net.gondr.domain.CommentVO;
 import net.gondr.domain.Criteria;
 import net.gondr.domain.ExpData;
 import net.gondr.domain.FreeBoardVO;
@@ -120,9 +121,14 @@ public class FreeBoardController {
 	}
 
 	@RequestMapping(value = "view/{id}", method = RequestMethod.GET)
-	public String viewArticle(@PathVariable Integer id, Model model) {
+	public String viewArticle(@PathVariable Integer id, Model model, Criteria criteria) {
 		FreeBoardVO board = service.viewArticle(id);
 		model.addAttribute("board", board);
+		
+		model.addAttribute("commentVO", new CommentVO());
+		List<CommentVO> comment_list = service.getCommentList((criteria));
+		model.addAttribute("comments", comment_list);
+		
 		return "freeBoard/view";
 	}
 

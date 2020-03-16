@@ -7,6 +7,7 @@ public class CommentVO {
 	private String writer;
 	private String content;
 	private Integer board_idx;
+	private Integer flag;
 
 	public Integer getIdx() {
 		return idx;
@@ -38,6 +39,14 @@ public class CommentVO {
 
 	public void setBoard_idx(Integer board_idx) {
 		this.board_idx = board_idx;
+	}
+	
+	public Integer getFlag() {
+		return flag;
+	}
+
+	public void setFlag(Integer flag) {
+		this.flag = flag;
 	}
 
 }

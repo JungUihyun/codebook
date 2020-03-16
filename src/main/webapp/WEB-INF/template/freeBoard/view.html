@@ -49,44 +49,26 @@
 		<div class="row mt-3">
 			<div class="col-10 offset-1">
 				<div class="card-header bg-white">댓글</div>
-				<div class="card mt-1">
-					<div class="card-body">
-						<h5 class="card-title">
-							작성자
-							</h3>
-							<p class="card-text">댓글 내용</p>
-							<!-- 댓글의 작성자가 로그인한 유저일 때 -->
-							<div class="col-13 text-right">
-								<a href="#" class="btn btn-danger">삭제</a>
-							</div>
-					</div>
-				</div>
-				<th:block th:if="${ board.id == comment.board_idx }"
-					th:each="comment : ${comment}">
-					<div class="card mt-1">
+				<th:block th:each="comment : ${comments}">
+					<div class="card mt-1" th:if="${ board.id == comment.board_idx and comment.flag == 1 }">
 						<div class="card-body">
-							<h5 th:text="${comment.idx}" class="card-title">
-								작성자
-								</h3>
-								<p th:text="${comment.content}" class="card-text">댓글 내용</p>
-								<!-- 댓글의 작성자가 로그인한 유저일 때 -->
-								<div class="col-13 text-right">
-									<a
-										th:if="${session.user != null and session.user.userid == comment.writer}"
-										th:href="#" class="btn btn-danger">삭제</a> <a href="#"
-										class="btn btn-danger">삭제</a>
-								</div>
+							<h5 th:text="${comment.writer}" class="card-title">작성자</h5>
+							<p th:text="${comment.content}" class="card-text">댓글 내용</p>
+							<!-- 댓글의 작성자가 로그인한 유저일 때 -->
+							<div th:if="${session.user != null and session.user.name == comment.writer}"  class="col-13 text-right">
+								<a th:href="@{ '/comment/1/delete/' + ${board.id} + '/' + ${comment.idx} }" class="btn btn-danger">삭제</a> 
+							</div>
 						</div>
 					</div>
 				</th:block>
-				<div class="input-group mt-3">
-					<input type="text" class="form-control" placeholder="댓글 내용"
-						aria-label="Recipient's username" aria-describedby="button-addon2">
-					<div class="input-group-append">
-						<button class="btn btn-outline-secondary" type="button"
-							id="button-addon2">작성</button>
+				<form th:if="${ session.user != null and session.user.level > 1 }" th:action="@{ '/comment/1/write/' + ${board.id} }" method="POST" th:object="${commentVO}">
+					<div class="input-group mt-3">
+						<input type="text" class="form-control" th:field="*{content}" id="content" placeholder="댓글 내용" aria-label="Recipient's username" aria-describedby="button-addon2">
+						<div class="input-group-append">
+							<button class="btn btn-outline-secondary" type="submit" id="button-addon2">작성</button>
+						</div>
 					</div>
-				</div>
+				</form>
 			</div>
 		</div>
 	</div>

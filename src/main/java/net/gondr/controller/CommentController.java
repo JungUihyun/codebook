@@ -19,6 +19,7 @@ import net.gondr.domain.CommentVO;
 import net.gondr.domain.ExpData;
 import net.gondr.domain.UserVO;
 import net.gondr.service.BoardService;
+import net.gondr.service.FreeBoardService;
 import net.gondr.service.UserService;
 
 @Controller
@@ -28,13 +29,16 @@ public class CommentController {
 	private ServletContext context;
 
 	@Autowired
-	private BoardService service;
+	private BoardService boardService;
+	
+	@Autowired
+	private FreeBoardService freeService;
 
 	@Autowired
 	private UserService userService;
 	
-	@RequestMapping(value = "write/{board_idx}", method = RequestMethod.POST)
-	public String comment_write(@PathVariable("board_idx") Integer board_idx, CommentVO comment, HttpSession session, Errors errors, RedirectAttributes rttr) {
+	@RequestMapping(value = "/{flag}/write/{board_idx}", method = RequestMethod.POST)
+	public String comment_write(@PathVariable("flag") Integer flag, @PathVariable("board_idx") Integer board_idx, CommentVO comment, HttpSession session, Errors errors, RedirectAttributes rttr) {
 		// 여기는 인터셉터에 의해서 로그인하지 않은 사용자는 막히게 될 것이기 때문에 그냥 에러처리 없이 user를 불러써도 된다.
 		UserVO user = (UserVO) session.getAttribute("user");
 
@@ -49,20 +53,36 @@ public class CommentController {
 		// 글의 인덱스
 		comment.setBoard_idx(board_idx);
 		// 실제 DB에 글을 기록함.
-		// 글 작성
-		service.writeComment(comment);
+		
+		
 		user = userService.addExp(user.getUserid(), ExpData.SMALL); // 댓글을 한번 쓸 때마다 3의 exp를 지급
 		session.setAttribute("user", user); // 갱신 후 세션값 재설정
-
-		return "redirect:/board/view/" + board_idx;
+		
+		if( flag == 0 ) {
+			boardService.writeComment(comment);
+			return "redirect:/board/view/" + board_idx;
+		} else if( flag == 1 ) {
+			freeService.writeComment(comment);
+			return "redirect:/free/view/" + board_idx;
+		}
+		
+		return null;
 	}
 	
-	@RequestMapping(value = "delete/{board_idx}/{idx}", method = RequestMethod.GET)
-	public String deleteArticle(@PathVariable("board_idx") Integer board_idx, @PathVariable("idx") Integer idx, HttpSession session, RedirectAttributes rttr) {
+	@RequestMapping(value = "/{flag}/delete/{board_idx}/{idx}", method = RequestMethod.GET)
+	public String deleteArticle(@PathVariable("flag") Integer flag, @PathVariable("board_idx") Integer board_idx, @PathVariable("idx") Integer idx, HttpSession session, RedirectAttributes rttr) {
 		UserVO user = (UserVO) session.getAttribute("user");
-
-		service.deleteComment(idx);
-		rttr.addFlashAttribute("msg", "성공적으로 삭제되었습니다.");
-		return "redirect:/board/view/" + board_idx;
+		
+		if( flag == 0 ) {
+			boardService.deleteComment(idx);
+			rttr.addFlashAttribute("msg", "성공적으로 삭제되었습니다.");
+			return "redirect:/board/view/" + board_idx;
+		} else if( flag == 1 ) {
+			freeService.deleteComment(idx);
+			rttr.addFlashAttribute("msg", "성공적으로 삭제되었습니다.");
+			return "redirect:/free/view/" + board_idx;
+		}
+		
+		return null;
 	}
 }

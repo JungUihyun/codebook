@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import net.gondr.domain.CommentVO;
 import net.gondr.domain.Criteria;
 import net.gondr.domain.FreeBoardVO;
 
@@ -44,5 +45,22 @@ public class FreeBoardDAOImpl implements FreeBoardDAO{
 	@Override
 	public Integer getCnt(Criteria cri) {
 		return session.selectOne(ns + ".cnt", cri);
+	}
+	
+	
+	
+	@Override
+	public List<CommentVO> comments(Criteria cri) {
+		return session.selectList(ns + ".comments", cri);
+	}
+	
+	@Override
+	public void write(CommentVO data) {
+		session.insert(ns + ".comment_write", data);
+	}
+	
+	@Override
+	public void deleteComment(Integer idx) {
+		session.delete(ns + ".deleteComment", idx);
 	}
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import net.gondr.dao.FreeBoardDAO;
+import net.gondr.domain.CommentVO;
 import net.gondr.domain.Criteria;
 import net.gondr.domain.FreeBoardVO;
 
@@ -37,5 +38,18 @@ public class FreeBoardServiceImpl implements FreeBoardService {
  
 	public Integer countArticle(Criteria cri) {
 		return dao.getCnt(cri);
+	}
+	
+	
+	public List<CommentVO> getCommentList(Criteria cri) {
+		return dao.comments(cri);
+	}
+	
+	public void writeComment(CommentVO comment) {
+		dao.write(comment);
+	}
+	
+	public void deleteComment(Integer idx) {
+		dao.deleteComment(idx);
 	}
 }

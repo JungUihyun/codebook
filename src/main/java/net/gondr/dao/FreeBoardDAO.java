@@ -2,6 +2,7 @@ package net.gondr.dao;
 
 import java.util.List;
 
+import net.gondr.domain.CommentVO;
 import net.gondr.domain.Criteria;
 import net.gondr.domain.FreeBoardVO;
 
@@ -17,4 +18,11 @@ public interface FreeBoardDAO {
 	public void update(FreeBoardVO data);
 	//현재 글의 갯수를 가져오는 것
 	public Integer getCnt(Criteria cri);
+	
+	
+	
+	// 댓글 리스트 보기
+	public List<CommentVO> comments(Criteria cri);
+	public void write(CommentVO data);
+	public void deleteComment(Integer idx);
 }

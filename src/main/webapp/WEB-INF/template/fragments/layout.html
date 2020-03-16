@@ -48,11 +48,9 @@
 			</form>
 			
 			<div th:if="${session.user != null}">
-				<button class="btn btn-outline-success" 
-						th:text="${session.user.name} + '님'"></button>
-				<a href="/user/logout" class="btn btn-outline-warning">
-					로그아웃
-				</a>
+				<button class="btn btn-outline-success" th:text="${'LV.' + session.user.level}"></button>
+				<button class="btn btn-outline-success" th:text="${session.user.name} + '님'"></button>
+				<a href="/user/logout" class="btn btn-outline-warning">로그아웃</a>
 			</div>
 		</div>
 	</nav>

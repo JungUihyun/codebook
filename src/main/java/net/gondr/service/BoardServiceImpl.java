@@ -39,12 +39,9 @@ public class BoardServiceImpl implements BoardService {
 	public Integer countArticle(Criteria cri) {
 		return dao.getCnt(cri);
 	}
+
 	
 	
-	
-//	public CommentVO viewComment(Integer idx) {
-//		return dao.view(idx);
-//	}
 	
 	public List<CommentVO> getCommentList(Criteria cri) {
 		return dao.comments(cri);

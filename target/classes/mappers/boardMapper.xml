@@ -37,10 +37,10 @@
 	
 	
 	<insert id="comment_write">
-		INSERT INTO spring_comments (writer, content, board_idx) VALUES ( #{writer}, #{content}, #{board_idx} )
+		INSERT INTO spring_comments (writer, content, board_idx, flag) VALUES ( #{writer}, #{content}, #{board_idx}, 0 )
 	</insert>
 	<select id="comments" resultType="CommentVO">
-		SELECT * FROM spring_comments ORDER BY idx DESC LIMIT #{pageStart}, #{perPageNum}
+		SELECT * FROM spring_comments ORDER BY idx ASC
 	</select>
 		<delete id="deleteComment">
 		DELETE FROM spring_comments WHERE idx = #{idx}
