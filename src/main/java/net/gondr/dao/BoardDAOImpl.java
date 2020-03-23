@@ -62,4 +62,9 @@ public class BoardDAOImpl implements BoardDAO{
 	public void deleteComment(Integer idx) {
 		session.delete(ns + ".deleteComment", idx);
 	}
+	
+	@Override 
+	public Integer getComment(Criteria cri) {
+		return session.selectOne(ns + ".cntComment", cri);
+	}
 }

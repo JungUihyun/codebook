@@ -24,4 +24,5 @@ public interface BoardDAO {
 	public List<CommentVO> comments(Criteria cri);
 	public void write(CommentVO data);
 	public void deleteComment(Integer idx);
+	public Integer getComment(Criteria cri);
 }

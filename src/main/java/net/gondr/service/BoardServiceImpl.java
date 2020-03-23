@@ -55,5 +55,9 @@ public class BoardServiceImpl implements BoardService {
 		dao.deleteComment(idx);
 	}
 	
+	public Integer countComment(Criteria cri) {
+		return dao.getComment(cri);
+	}
+	
 	
 }

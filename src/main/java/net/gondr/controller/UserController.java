@@ -55,7 +55,7 @@ public class UserController {
 		MultipartFile file = dto.getProfileImg();
 		String upFile = FileUtil.uploadFile(uploadPath, file.getOriginalFilename(), file.getBytes());
 
-		// System.out.println(uploadPath + "에 " + upFile + "로 업로드 됨.");
+		System.out.println(uploadPath + "에 " + upFile + "로 업로드 됨.");
 
 		UserVO user = new UserVO();
 		user.setImg(upFile);
@@ -99,16 +99,17 @@ public class UserController {
 		return "redirect:/";
 	}
 
-	@RequestMapping(value = { "profile", "profile/{file:.+}" }, method = RequestMethod.GET)
+	@RequestMapping(value = "profile/{file:.+}", method=RequestMethod.GET)
 	@ResponseBody
 	public byte[] getUserProfile(@PathVariable Optional<String> file) throws IOException {
-		String uploadPath = context.getRealPath("/WEB-INF/upload");		
+		String uploadPath = context.getRealPath("/WEB-INF/upload");
 		String imgFile = "default.png";
+
 		if (file.isPresent()) {
 			imgFile = file.get();
 		}
 		try {
-			File profile = new File(uploadPath + File.pathSeparator + imgFile);
+			File profile = new File(uploadPath + File.separator + imgFile);
 			FileInputStream in = new FileInputStream(profile);
 			return IOUtils.toByteArray(in);
 		} catch (FileNotFoundException e) {

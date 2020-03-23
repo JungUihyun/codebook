@@ -28,5 +28,7 @@ public interface BoardService {
 	public void writeComment(CommentVO comment);
 	// 댓글 삭제
 	public void deleteComment(Integer idx);
+	// 댓글 갯수 가져오기
+	public Integer countComment(Criteria cri);
 	
 }

@@ -3,7 +3,6 @@
 	xmlns:th="http://www.thymeleaf.org">
 
 <head th:replace="/fragments/layout :: head"></head>
-
 <body>
 	<header th:replace="/fragments/layout :: header"></header>
 	<link rel="stylesheet" href="/app/css/prism.css" />
@@ -49,7 +48,7 @@
 		<div class="row mt-3">
 			<div class="col-10 offset-1">
 				<div class="card-header bg-white">댓글</div>
-				<th:block th:each="comment : ${comments}">
+				<th:block th:each="comment : ${comments}" id="more_list">
 					<div class="card mt-1" th:if="${ board.id == comment.board_idx and comment.flag == 0 }">
 						<div class="card-body">
 							<h5 th:text="${comment.writer}" class="card-title">작성자</h5>
@@ -61,6 +60,28 @@
 						</div>
 					</div>
 				</th:block>
+				<!-- <a id="more_btn_a" href="javascript:moreContent('more_list', 10);">더보기</a> -->
+                <!-- Pagination -->
+				<div class="article-footer asdasd d-flex justify-content-center">
+					<div class="d-flex">
+						<li class="page-item" th:if="${criteria.prev}">
+							<a th:href="@{ '/board/view/' + ${board.id} + ${criteria.getQuery(criteria.start - 1)} }" aria-label="Previous" class="page-link">
+								<span style="color: #5f5f5f;" aria-hidden="true">&laquo;</span>
+							</a>
+						</li>
+						<th:block th:each="i : ${#numbers.sequence(criteria.start, criteria.end)}" class="d-flex">
+							<li class="page-item">
+								<a style="color: #5f5f5f;" th:href="@{'/board/view/' + ${board.id} + ${criteria.getQuery(i)} }" th:text="${i}" class="page-link">2</a>
+							</li>
+						</th:block>
+						<li class="page-item" th:if="${criteria.next}">
+							<a th:href="@{'/board/view/' + ${board.id} + ${criteria.getQuery(criteria.end + 1)} }" aria-label="Next" class="page-link">
+								<span style='color: #5f5f5f;' aria-hidden="true">&raquo;</span>
+							</a>
+						</li>
+					</div>
+				</div>
+                <!-- Pagination End -->
 				<form th:if="${ session.user != null and session.user.level > 1 }" th:action="@{ '/comment/0/write/' + ${board.id} }" method="POST" th:object="${commentVO}">
 					<div class="input-group mt-3">
 						<input type="text" class="form-control" th:field="*{content}" id="content" placeholder="댓글 내용" aria-label="Recipient's username" aria-describedby="button-addon2">
@@ -73,5 +94,62 @@
 		</div>
 	</div>
 	<footer th:replace="/fragments/layout :: footer"></footer>
+	<script>
+	
+	/*https://blog.naver.com/PostView.nhn?blogId=deeperain&logNo=221459867105*/	
+
+	/* function moreContent(id, cnt) {
+		let list_length = $("#" + id + " tr").length - 1; // 댓글 개수 구하기
+		let aname = id + "_btn";
+		let calllength = list_length;
+		
+		$("#startCount").val(callLength);
+		$("#viewCount").val(cnt);
+		
+		$.ajax({
+			type : "post",
+			url  : "/getMoreComment.do",
+			data : $("form").serialize(),
+			dataType : "json",
+			success : 	function(result) {
+							if(result.resultCnt > 0) {
+								let list = result.resultList;
+								if(resultVO.title != '') {
+									$("#" + aname).attr('href', "javascript:moreContent('" + id + "', " + cnt + ");");
+										getMoreList(list);
+									} else {
+										$("#" + id + "_div").remove();
+									}
+								}
+						} else {},
+			error : function(request, status, error) {
+						alert("code = " + request.status + " message = " + requeset.responseText + " error = " + error);
+					}
+		});
+	}
+		
+	function getMoreList(list) {
+		let content = "";
+		let length = list.length;
+		
+		for(i  = 0; i < list.length; i++) {
+			let resultVO = list[i];
+			if(resultVO.title != '') {
+				content += "<div class="card mt-1" th:if="${ board.id == comment.board_idx and comment.flag == 0 }">";
+				content += "<div class="card-body">";
+				content += '<h5 th:text="${comment.writer}" class="card-title">작성자</h5>';
+				content += '<p th:text="${comment.content}" class="card-text">댓글 내용</p>';
+				content += '<div th:if="${session.user != null and session.user.name == comment.writer}"  class="col-13 text-right">';
+				content += '<a th:href="@{ "/comment/0/delete/" + ${board.id} + "/" + ${comment.idx} }" class="btn btn-danger">삭제</a>';
+				content += '</div>';
+				content += '</div>';
+				content += '</div>';
+			}
+		}
+		
+		$("#more_list > .card").after(content);
+		// id가 more_list아래에 있는 card의 마지막에 content값을 추가함
+	} */
+	</script>
 </body>
 </html>

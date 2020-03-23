@@ -130,6 +130,9 @@ public class BoardController {
 		List<CommentVO> comment_list = service.getCommentList((criteria));
 		model.addAttribute("comments", comment_list);
 		
+		Integer cnt = service.countComment(criteria);
+		criteria.calculate(cnt);
+		
 		return "board/view";
 	}
 
