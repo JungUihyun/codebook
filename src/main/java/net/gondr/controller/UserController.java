@@ -111,10 +111,12 @@ public class UserController {
 		try {
 			File profile = new File(uploadPath + File.separator + imgFile);
 			FileInputStream in = new FileInputStream(profile);
+			
 			return IOUtils.toByteArray(in);
 		} catch (FileNotFoundException e) {
 			File profile = new File(uploadPath + File.separator + "default.png");
 			FileInputStream in = new FileInputStream(profile);
+			
 			return IOUtils.toByteArray(in);
 		}
 	}
