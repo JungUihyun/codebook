@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="/app/css/list.css">
+    <link rel="stylesheet" href="/app/css/my_layout.css">
+    <link rel="stylesheet" href="/app/fontawesome/css/all.css">
+</head>
+   
+    <!-- Header -->
+    <header>
+		<div class="container d-flex justify-content-between align-items-center h-100">
+			<div class="logo">
+				<a href="/">CodeBook</a>
+			</div>
+			<nav class="d-flex justify-content-between">
+				<div class="menu-group">
+					<a href="/">메인</a>
+                    <a href="/free/list">글목록</a>
+				</div>
+				<div class="user-group">
+					<a th:if="${session.user == null}" href="/user/login" class="bttn header-login-btn">로그인</a>
+					<a th:if="${session.user == null}" href="/user/register" class="bttn header-login-btn">회원가입</a>
+                    <a  th:if="${session.user != null}" th:text="${session.user.name}" href="#" class="bttn header-login-btn">유저이름</a>
+					<a  th:if="${session.user != null}" href="/user/logout" class="bttn header-login-btn">로그아웃</a>
+				</div>
+			</nav>
+		</div>
+	</header>
+    <div th:if="${msg != null}" style="margin-top: 60px" class="mb-0 alert alert-warning alert-dismissible fade show" role="alert">
+		<strong>알림!</strong>
+		<span th:text="${msg}">메시지</span>
+		<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+    <!-- Header End -->
+    
+    <!-- Main Page -->
+    <div id="main-page">
+    
+    	
+    	<h1>프로필 페이</h1>
+    	<span th:text="${session.user.name}"></span>
+    	<span th:text="${session.user.userid}"></span>
+    	<span th:text="${session.user.password}"></span>
+    	<img th:src="@{ '/user/profile/' + ${session.user.img} }">
+    
+    
+    
+    
+    
+    
+    
+    
+       	<!-- Footer -->
+        <footer>
+            <div class="footer-menu d-flex align-items-center">
+                <div class="container">
+                    <a href="#">사이트소개</a>
+                    <a href="#">이용약관</a>
+                    <a href="#">개인정보처리방침</a>
+                    <a href="#">문의/피드백</a>
+                    <a href="#">광고</a>
+                </div>
+            </div>
+            <div class="footer-content">
+                <div class="container d-flex justify-content-between">
+                    <div>
+                        경기 성남시 분당구 불정로 386번길 35 양영디지털고등학교<br>
+                        Tel: 031) 123-4567 / Phone: 010) 1234-5678<br><br>
+                        © CODEBOOK. ANNONYMOUS All rights reserved
+                    </div>
+                    <div>
+                        <img src="/app/images/twitter.png" alt="">
+                        <img src="/app/images/instagram.png" alt="">
+                        <img src="/app/images/facebook.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </footer>
+    	<!-- Footer End -->
+    </div>
+    <!-- Main Page End -->
+   

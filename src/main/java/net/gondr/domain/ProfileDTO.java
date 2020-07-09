@@ -3,6 +3,7 @@ package net.gondr.domain;
 import org.springframework.web.multipart.MultipartFile;
 
 public class ProfileDTO {
+	private String userid;
 	private String username;
 	private String level;
 	private MultipartFile profileImg;

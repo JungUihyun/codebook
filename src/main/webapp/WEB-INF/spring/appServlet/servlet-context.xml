@@ -46,7 +46,7 @@
 
 	</beans:bean>
 
-	<!-- Controller, Repositorty, Service 등을 검색할 패키지 -->
+	<!-- Controller, Repository, Service 등을 검색할 패키지 -->
 	<context:component-scan
 		base-package="net.gondr.controller" />
 
@@ -65,11 +65,12 @@
 	
 	<interceptors>
 		<interceptor>
-			<mapping path="/user/register"/>
+			<mapping path="/register"/>
 			<beans:ref bean="nonAuthInterceptor"/>
 		</interceptor>
 		
 		<interceptor>
+			<mapping path="/user/profile"/>
 			<mapping path="/user/logout"/>
 			<mapping path="/board/write/*"/>
 			<mapping path="/board/delete/*"/>

@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import net.gondr.domain.LoginDTO;
+import net.gondr.domain.ProfileDTO;
 import net.gondr.domain.RegisterDTO;
 import net.gondr.domain.UserVO;
 import net.gondr.service.UserService;
@@ -99,7 +100,7 @@ public class UserController {
 		return "redirect:/";
 	}
 
-	@RequestMapping(value = "profile/{file:.+}", method=RequestMethod.GET)
+	@RequestMapping(value = "profile/{file:.+}", method = RequestMethod.GET)
 	@ResponseBody
 	public byte[] getUserProfile(@PathVariable Optional<String> file) throws IOException {
 		String uploadPath = context.getRealPath("/WEB-INF/upload");
@@ -111,14 +112,19 @@ public class UserController {
 		try {
 			File profile = new File(uploadPath + File.separator + imgFile);
 			FileInputStream in = new FileInputStream(profile);
-			
+
 			return IOUtils.toByteArray(in);
 		} catch (FileNotFoundException e) {
 			File profile = new File(uploadPath + File.separator + "default.png");
 			FileInputStream in = new FileInputStream(profile);
-			
+
 			return IOUtils.toByteArray(in);
 		}
+	}
+
+	@RequestMapping(value = "profile", method = RequestMethod.GET)
+	public String viewProfilePage(Model model) {
+		return "user/profile";
 	}
 
 // 경험치 리셋 코드

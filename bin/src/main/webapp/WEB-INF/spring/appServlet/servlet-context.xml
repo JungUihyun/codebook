@@ -70,6 +70,7 @@
 			<beans:ref bean="nonAuthInterceptor" />
 		</interceptor>
 		<interceptor>
+			<mapping path="/user/profile"/>
 			<mapping path="/user/logout"/>
 			<mapping path="/board/write"/>
 			<mapping path="/board/write/*"/>

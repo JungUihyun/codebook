@@ -23,8 +23,8 @@
 				<div class="user-group">
 					<a th:if="${session.user == null}" href="/user/login" class="bttn header-login-btn">로그인</a>
 					<a th:if="${session.user == null}" href="/user/register" class="bttn header-login-btn">회원가입</a>
-                    <a  th:if="${session.user != null}" th:text="${session.user.name}" href="#" class="bttn header-login-btn">유저이름</a>
-					<a  th:if="${session.user != null}" href="/user/logout" class="bttn header-login-btn">로그아웃</a>
+                    <a th:if="${session.user != null}" th:text="${session.user.name}" href="/user/profile" class="bttn header-login-btn">유저이름</a>
+					<a th:if="${session.user != null}" href="/user/logout" class="bttn header-login-btn">로그아웃</a>
 				</div>
 			</nav>
 		</div>
